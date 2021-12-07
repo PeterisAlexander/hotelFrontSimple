@@ -1,0 +1,59 @@
+<main class="container">
+
+    <div class="alert alert-success" *ngIf="success">Opération effectuée avec succès</div>
+
+    <h1>Liste des reservations</h1>
+    <button class="btn btn-primary" [routerLink]="['addedit' , 0 ]" id="addbtn">Ajouter une reservation</button>
+
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="search" placeholder="Rechercher" [(ngModel)]="searchValue" aria-describedby="button-addon2">
+    </div>
+
+    <form method="get" [formGroup]="searchForm" (submit)="reloadResas()">
+        <div class="row my-4">
+            <div class="col-4">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="search" placeholder="Rechercher" formControlName="item" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="no-items-message" class="alert alert-info" *ngIf="resas.length == 0">Aucun reservation trouvé</div>
+
+    <table id="resastable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Client</th>
+                <th>Hotel</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Numéro de Chambre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let resa of resas">
+                <td>{{ resa.id }}</td>
+                <td>{{ resa.client?.nomComplet }}</td>
+                <td>{{ resa.hotel?.nom }}</td>
+                <td>{{ resa.dateDepart | date:'dd/MM/yyyy' }}</td>
+                <td>{{ resa.dateFin | date:'dd/MM/yyyy'}}</td>
+                <td>{{ resa.numChambre}}</td>
+                <td>
+                    <a [routerLink]="['addedit' , resa.id ]" class="btn btn-secondary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <button class="btn btn-danger btn-sm ms-3" (click)="delete( resa.id )">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</main>

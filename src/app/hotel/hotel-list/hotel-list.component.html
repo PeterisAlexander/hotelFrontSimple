@@ -1,0 +1,120 @@
+<main class="container">
+
+    <div class="alert alert-success" *ngIf="success">Opération effectuée avec succès</div>
+
+    <h1>Liste des hotels</h1>
+    <!-- <button class="btn btn-primary" [routerLink]="['addedit' , 0 ]" id="addbtn">Ajouter un hotel</button> -->
+    <button id="addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary" (click)="reset()">Ajouter un
+        hotel</button>
+
+    <form method="get" [formGroup]="searchForm" (submit)="reloadHotels()">
+        <div class="row my-4">
+            <div class="col-4">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="search" placeholder="Rechercher" formControlName="item" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="no-items-message" class="alert alert-info" *ngIf="hotels.length == 0">Aucun hotel trouvé</div>
+
+    <table id="clientstable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Etoiles</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Adresse</th>
+                <th>Ville</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let hotel of hotels">
+                <td>{{ hotel.id }}</td>
+                <td>{{ hotel.nom }}</td>
+                <td> 
+                    <div class="d-flex">
+                        <div  *ngFor="let x of getTabEtoile(((hotel.etoiles == undefined) ? 0 : hotel.etoiles))">
+                            <i value="x" class="fa fa-star" style="color: goldenrod;" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ hotel.email }}</td>
+                <td>{{ hotel.telephone }}</td>
+                <td>{{ hotel.adresse}}</td>
+                <td>{{ hotel.ville}}</td>
+                <td>
+                    <!-- <a [routerLink]="['addedit' , hotel.id ]" class="btn btn-secondary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> -->
+                    <a class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="edit(hotel.id)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <button class="btn btn-danger btn-sm ms-3" (click)="delete( hotel.id )">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</main>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" *ngIf="hotel.id == undefined">Ajouter un hotel</h5>
+                <h5 class="modal-title" id="exampleModalLabel" *ngIf="hotel.id != undefined">Editer un hotel</h5>
+
+                <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form ngNativeValidate (submit)="submitHotel()">
+                <div class="modal-body">
+
+                    <div class="alert alert-danger" *ngIf="errorMessage.length > 0">{{errorMessage}}</div>
+                    <div class="form-line mb-4">
+                        <label class="form-label">Nom *</label>
+                        <input class="form-control" minlength="2" type="text" name="nom" placeholder="Nom" [(ngModel)]="hotel.nom" required>
+                    </div>
+            
+                    <div class="form-line mb-4">
+                        <label class="form-label">Etoiles *</label>
+                        <!-- <ngb-rating class="form-control" [max]="5" [(rate)]="currentRate" [readonly]="false" name="etoiles" [(ngModel)]="hotel.etoiles"></ngb-rating> -->
+                        <input class="form-control" minlength="2" type="number" name="etoiles" [(ngModel)]="hotel.etoiles" required>
+                    </div>
+            
+                    <div class="form-line mb-4">
+                        <label class="form-label">Adresse *</label>
+                        <input class="form-control" minlength="2" type="text" name="adresse" placeholder="Adresse" [(ngModel)]="hotel.adresse" required>
+                    </div>
+            
+                    <div class="form-line mb-4">
+                        <label class="form-label">Ville *</label>
+                        <input class="form-control" minlength="2" type="text" name="ville" placeholder="Ville" [(ngModel)]="hotel.ville" required>
+                    </div>
+            
+                    <div class="form-line mb-4">
+                        <label class="form-label">Telephone *</label>
+                        <input class="form-control" minlength="2" type="tel" name="telephone" placeholder="+33 XX XX XX XX XX" [(ngModel)]="hotel.telephone" required>
+                    </div>
+            
+                    <div class="form-line mb-4">
+                        <label class="form-label">Email *</label>
+                        <input class="form-control" minlength="2" type="email" name="email" placeholder="Email" [(ngModel)]="hotel.email" required>
+                    </div>
+                </div>
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" type="submit" class="btn btn-primary">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
