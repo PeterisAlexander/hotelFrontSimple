@@ -38,7 +38,7 @@
         </div>
 
         <div class="form-line mb-4 d-flex">
-            <button type="submit" class="btn btn-secondary">Valider</button>
+            <button [disabled]="hotelForm.invalid" type="submit" class="btn btn-secondary">Valider</button>
             <button type="reset" class="btn btn-danger float-end">Annuler</button>
         </div>
 

@@ -16,7 +16,6 @@ import { HotelFormComponent } from './hotel/hotel-form/hotel-form.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReservationListComponent } from './reservation/reservation-list/reservation-list.component';
 import { ReservationFormComponent } from './reservation/reservation-form/reservation-form.component';
-import { SearchfilterPipe } from './pipes/searchfilter.pipe';
 
 @NgModule({
   declarations: [
@@ -29,8 +28,7 @@ import { SearchfilterPipe } from './pipes/searchfilter.pipe';
     HotelListComponent,
     HotelFormComponent,
     ReservationListComponent,
-    ReservationFormComponent,
-    SearchfilterPipe
+    ReservationFormComponent
   ],
   imports: [
     BrowserModule,

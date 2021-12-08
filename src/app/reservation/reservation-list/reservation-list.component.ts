@@ -20,7 +20,7 @@ export class ReservationListComponent implements OnInit {
   clients: Array<ClientEntity> = [];
   hotels: Array<HotelEntity> = [];
 
-  searchValue: string = "";
+  clientRecherche: number = 0;
 
   errorMessage: string = ""
 
@@ -50,7 +50,7 @@ export class ReservationListComponent implements OnInit {
   public reloadResas(): void {
     console.log("search == " + this.searchForm.get('item')?.value );
 
-    this.rs.getAll().subscribe({
+    this.rs.getAll(this.clientRecherche).subscribe({
       next: (data) => { this.resas = data },
       error: (err) => { console.log(err.error.message) }
     });

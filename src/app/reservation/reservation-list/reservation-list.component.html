@@ -5,11 +5,11 @@
     <h1>Liste des reservations</h1>
     <button class="btn btn-primary" [routerLink]="['addedit' , 0 ]" id="addbtn">Ajouter une reservation</button>
 
-    <div class="input-group mb-3">
+    <!-- <div class="input-group mb-3">
         <input type="text" class="form-control" name="search" placeholder="Rechercher" [(ngModel)]="searchValue" aria-describedby="button-addon2">
-    </div>
+    </div> -->
 
-    <form method="get" [formGroup]="searchForm" (submit)="reloadResas()">
+    <!-- <form method="get" [formGroup]="searchForm" (submit)="reloadResas()">
         <div class="row my-4">
             <div class="col-4">
                 <div class="input-group mb-3">
@@ -21,7 +21,27 @@
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </div>
         </div>
+    </form> -->
+
+    <form method="get" (submit)="reloadResas()">
+        <div class="row my-4">
+            <div class="col-4">
+                <select name="client" id="client" required class="form-select" [(ngModel)]="clientRecherche">
+                    <option value="">Sélectionner un client</option>
+                    <option *ngFor="let client of clients" [ngValue]="client.id">
+                        {{client.nomComplet}}
+                    </option>
+                </select>
+            </div>
+            <!-- <div class="col-3">
+                <input type="date" name="datesearch" [(ngModel)]="datesearch" class="form-control">
+            </div> -->
+            <div class="col-3">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </div>
     </form>
+
 
     <div id="no-items-message" class="alert alert-info" *ngIf="resas.length == 0">Aucun reservation trouvé</div>
 

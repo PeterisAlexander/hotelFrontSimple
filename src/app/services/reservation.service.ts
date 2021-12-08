@@ -12,13 +12,13 @@ import { ConfigService } from './config.service';
 export class ReservationService {
   constructor(private http: HttpClient, private config: ConfigService) {}
 
-  getAll(s?: string): Observable<ReservationEntity[]> {
+  getAll(idclient?: number): Observable<ReservationEntity[]> {
     console.log(
-      environment.backendUri + 'resa' + (s == undefined ? '' : '?search=' + s)
+      environment.backendUri + 'resa?' + ( idclient == undefined ? "" : "&client=" + idclient )
     );
 
     return this.http.get<ReservationEntity[]>(
-      environment.backendUri + 'resa' + (s == undefined ? '' : '?search=' + s) , this.config.httpOptions
+      environment.backendUri + 'resa?'  + ( idclient == undefined || (""+idclient) == "" || idclient == 0 ? "" : "&client=" + idclient ) , this.config.httpOptions
     );
   }
 
